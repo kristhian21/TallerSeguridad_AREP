@@ -7,11 +7,13 @@ import com.google.gson.Gson;
 public class SparkWebApp {
 
     public static void main(String[] args) {
-        RoundRobin roundRobin  = new RoundRobin();
+        URLReader urlReader = new URLReader();
+        // Set up the index
+        staticFiles.location("/public");
+        // SSL Certificate
+        secure("keystores/ecikeystore.p12", "ecistore", null, null);
         // Set up the port
         port(getPort());
-        // GET index
-        staticFiles.location("/public");
         init();
         after((Filter) (request, response) -> {
             response.header("Access-Control-Allow-Origin", "*");
@@ -20,14 +22,20 @@ public class SparkWebApp {
         // GET Operations
         get("/cos", ((request, response) -> {
             response.type("application/json");
-            String result = roundRobin.sendRequest(request.queryParams("value"), "cos");
+            String result = urlReader.readURL("https://localhost:35001/cos?value="+request.queryParams("value"));
             return new Gson().toJson(new MathResponse("Coseno(x)", request.queryParams("value"), result));
         }));
-        get("/log", ((request, response) -> {
+        get("/sen", ((request, response) -> {
             response.type("application/json");
-            String result = roundRobin.sendRequest(request.queryParams("value"), "log");
-            return new Gson().toJson(new MathResponse("Log(x)", request.queryParams("value"), result));
+            String result = urlReader.readURL("https://localhost:35001/sen?value="+request.queryParams("value"));
+            return new Gson().toJson(new MathResponse("Seno(x)", request.queryParams("value"), result));
         }));
+
+        // We can now read this URL
+        // urlReader.readURL("https://localhost:35001/cos?value=100");
+        // This one can't be read because the Java default truststore has been 
+        // changed.
+        //urlReader.readURL("https://www.google.com");
     }
 
     /**
