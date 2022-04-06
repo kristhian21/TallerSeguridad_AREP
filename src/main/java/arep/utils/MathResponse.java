@@ -1,4 +1,4 @@
-package arep.controllers;
+package arep.utils;
 
 public class MathResponse {
 

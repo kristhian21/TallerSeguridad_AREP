@@ -1,4 +1,4 @@
-package arep.controllers;
+package arep.utils;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
