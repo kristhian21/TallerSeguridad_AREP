@@ -23,7 +23,7 @@ Se ejecutan el servicio de de operaciones matemáticas y el servicio en donde se
 
 Se prueba el login existoso
 
-<img src="img/s5.png">
+<img src="img/S5.png">
 
 Se prueba el login fallido 
 
